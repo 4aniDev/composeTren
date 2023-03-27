@@ -1,6 +1,7 @@
 package ru.chani.composetren.ui.theme
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.chani.composetren.R
 
 @Composable
 fun InstaProfileCard() {
@@ -34,14 +37,13 @@ fun InstaProfileCard() {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
+            Image(
                 modifier = Modifier
                     .padding(15.dp)
-                    .size(80.dp)
-                    .background(Color.Cyan)
-            ) {
-
-            }
+                    .size(80.dp),
+                painter = painterResource(id = R.drawable.ic_insta),
+                contentDescription = ""
+            )
             UserStatistics(title = "Post", value = "6,900")
             UserStatistics(title = "Followers", value = "762M")
             UserStatistics(title = "Following", value = "756")
@@ -58,8 +60,8 @@ private fun UserStatistics(title: String, value: String) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-            Text(text = value, fontFamily = FontFamily.Cursive, fontSize = 25.sp)
-            Text(text = title, fontWeight = FontWeight.Bold, fontSize = 12.sp,)
+        Text(text = value, fontFamily = FontFamily.Cursive, fontSize = 25.sp)
+        Text(text = title, fontWeight = FontWeight.Bold, fontSize = 12.sp)
     }
 }
 
