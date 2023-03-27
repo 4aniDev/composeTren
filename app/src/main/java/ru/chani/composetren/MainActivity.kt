@@ -26,7 +26,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            InstaProfileCard()
+            ComposeTrenTheme {
+//                Box for background
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colors.background)
+                ) {
+                    InstaProfileCard()
+                }
+            }
         }
     }
 }

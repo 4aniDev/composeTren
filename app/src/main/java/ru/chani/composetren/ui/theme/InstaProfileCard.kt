@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,14 +14,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview(showBackground = true)
 @Composable
 fun InstaProfileCard() {
 
     Card(
+        backgroundColor = MaterialTheme.colors.background,
         modifier = Modifier.padding(10.dp),
         shape = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp),
-        border = BorderStroke(1.dp, Color.Black)
+        border = BorderStroke(1.dp, MaterialTheme.colors.onBackground)
     ) {
         Row(
             modifier = Modifier
@@ -60,5 +61,22 @@ private fun TwoBoxes(firstLine: String, secondLine: String) {
         Box {
             Text(text = secondLine)
         }
+    }
+}
+
+
+@Preview
+@Composable
+private fun previewCardLight() {
+    ComposeTrenTheme(darkTheme = false) {
+        InstaProfileCard()
+    }
+}
+
+@Preview
+@Composable
+private fun previewCardDark() {
+    ComposeTrenTheme(darkTheme = true) {
+        InstaProfileCard()
     }
 }
