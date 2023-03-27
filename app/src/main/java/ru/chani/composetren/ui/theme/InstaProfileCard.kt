@@ -11,8 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun InstaProfileCard() {
@@ -39,28 +42,24 @@ fun InstaProfileCard() {
             ) {
 
             }
-            TwoBoxes(firstLine = "6,900", secondLine = "Post")
-            TwoBoxes(firstLine = "76", secondLine = "Followers")
-            TwoBoxes(firstLine = "756", secondLine = "Following")
+            UserStatistics(title = "Post", value = "6,900")
+            UserStatistics(title = "Followers", value = "762M")
+            UserStatistics(title = "Following", value = "756")
         }
     }
 }
 
 
 @Composable
-private fun TwoBoxes(firstLine: String, secondLine: String) {
+private fun UserStatistics(title: String, value: String) {
     Column(
         modifier = Modifier
-            .padding(15.dp),
+            .height(80.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Box {
-            Text(text = firstLine)
-        }
-        Box {
-            Text(text = secondLine)
-        }
+            Text(text = value, fontFamily = FontFamily.Cursive, fontSize = 25.sp)
+            Text(text = title, fontWeight = FontWeight.Bold, fontSize = 12.sp,)
     }
 }
 
