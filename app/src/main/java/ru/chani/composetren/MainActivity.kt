@@ -17,12 +17,23 @@ import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.chani.composetren.ui.theme.ComposeTrenTheme
+import ru.chani.composetren.ui.theme.PostCard
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            ComposeTrenTheme {
+//                A Box use for background (don't use Surface, because Surface uses Box under the hood)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colors.background)
+                        .padding(8.dp)
+                ) {
+                    PostCard()
+                }
+            }
         }
     }
 }
