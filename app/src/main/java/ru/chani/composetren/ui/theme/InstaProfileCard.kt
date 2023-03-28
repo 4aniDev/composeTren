@@ -4,16 +4,18 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,25 +31,39 @@ fun InstaProfileCard() {
         shape = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp),
         border = BorderStroke(1.dp, MaterialTheme.colors.onBackground)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .width(500.dp)
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
+        Column(modifier = Modifier.padding(10.dp)) {
+            Row(
                 modifier = Modifier
-                    .padding(15.dp)
-                    .size(80.dp),
-                painter = painterResource(id = R.drawable.ic_insta),
-                contentDescription = ""
+                    .fillMaxWidth()
+                    .width(500.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_insta),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .padding(8.dp)
+                )
+                UserStatistics(title = "Post", value = "6,900")
+                UserStatistics(title = "Followers", value = "762M")
+                UserStatistics(title = "Following", value = "756")
+            }
+            Text(
+                fontFamily = FontFamily.Cursive,
+                fontSize = 30.sp,
+                text = "Instagram"
             )
-            UserStatistics(title = "Post", value = "6,900")
-            UserStatistics(title = "Followers", value = "762M")
-            UserStatistics(title = "Following", value = "756")
+            Text(text = "#YoursToMake")
+            Text(text = "www.facebook.com/emotional_health")
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Follow")
+            }
         }
+
     }
 }
 
