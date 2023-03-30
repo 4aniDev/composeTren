@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">composeTren</string>
+    <string name="template_text">OSI model is a conceptual model that \'provides a common basis for the coordination of [ISO] standards development for the purpose of systems interconnection\'</string>
 </resources>
