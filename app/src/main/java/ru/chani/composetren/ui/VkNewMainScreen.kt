@@ -17,11 +17,9 @@ private const val DEFAULT_INDEX_OF_SELECTED_ITEM = 0
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
-    val snackbarHostState = SnackbarHostState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val fabIsVisible = remember {
-        mutableStateOf(true)
-    }
+    val fabIsVisible = remember { mutableStateOf(true) }
 
 
     Scaffold(
