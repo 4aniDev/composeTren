@@ -8,22 +8,32 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.chani.composetren.MainViewModel
 import ru.chani.composetren.R
 
 @Composable
-fun InstaProfileCard() {
+fun InstaProfileCard(
+    viewModel: MainViewModel
+) {
+    /**
+     * This function converts our LiveData object to State object.
+     * if we set initial state to function
+     * variable will be NON_NULLABLE, for example (State<Boolean>)
+     * else
+     * variable will be NULLABLE (State<Boolean?>)
+     * */
+    val isFollowed: State<Boolean> =  viewModel.isFollowing.observeAsState(false)
 
     Card(
         backgroundColor = MaterialTheme.colors.background,
@@ -59,11 +69,36 @@ fun InstaProfileCard() {
             )
             Text(text = "#YoursToMake")
             Text(text = "www.facebook.com/emotional_health")
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "Follow")
+            FollowButton(isFollowed = isFollowed.value) {
+                viewModel.changeFollowingSate()
             }
         }
 
+    }
+}
+
+
+@Composable
+private fun FollowButton(
+    isFollowed: Boolean,
+    clickListener: () -> Unit
+) {
+    Button(
+        onClick = { clickListener() },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if (isFollowed) {
+                MaterialTheme.colors.primary.copy(alpha = 0.5f)
+            } else {
+                MaterialTheme.colors.primary
+            }
+        )
+    ) {
+        val text = if (isFollowed) {
+            "Unfollow"
+        } else {
+            "Follow"
+        }
+        Text(text = text)
     }
 }
 
@@ -78,22 +113,5 @@ private fun UserStatistics(title: String, value: String) {
     ) {
         Text(text = value, fontFamily = FontFamily.Cursive, fontSize = 25.sp)
         Text(text = title, fontWeight = FontWeight.Bold, fontSize = 12.sp)
-    }
-}
-
-
-@Preview
-@Composable
-private fun previewCardLight() {
-    ComposeTrenTheme(darkTheme = false) {
-        InstaProfileCard()
-    }
-}
-
-@Preview
-@Composable
-private fun previewCardDark() {
-    ComposeTrenTheme(darkTheme = true) {
-        InstaProfileCard()
     }
 }
