@@ -69,7 +69,8 @@ fun InstaProfileCard(
             )
             Text(text = "#YoursToMake")
             Text(text = "www.facebook.com/emotional_health")
-            FollowButton(isFollowed = isFollowed.value) {
+
+            FollowButton(isFollowed = isFollowed) {
                 viewModel.changeFollowingSate()
             }
         }
@@ -78,22 +79,36 @@ fun InstaProfileCard(
 }
 
 
+    /**
+     * Лучше пробрасывать состояния непосредственно в ту функию, где это состояние будет
+     * использоаться.
+     * В данном случае isFollowed должна быть не просто Boolean, а State<Boolean>.
+     * Это нужно чтобы вызывающие функции не зависили от ее состояния, а следовательно
+     * и не происходила рекомпозиция в вышестоящих в стеке функциях.
+     *
+     * Выше, можно было бы написать вот так:
+     * FollowButton(isFollowed = isFollowed.value) {
+        viewModel.changeFollowingSate()
+        }
+     * Тогда, функция Card() зависила бы от этого стейта, и каждый раз при изменении состояния
+     * кнопки, прихоилось бы перерисовывать и Card()
+     */
 @Composable
 private fun FollowButton(
-    isFollowed: Boolean,
+    isFollowed: State<Boolean>,
     clickListener: () -> Unit
 ) {
     Button(
         onClick = { clickListener() },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (isFollowed) {
+            backgroundColor = if (isFollowed.value) {
                 MaterialTheme.colors.primary.copy(alpha = 0.5f)
             } else {
                 MaterialTheme.colors.primary
             }
         )
     ) {
-        val text = if (isFollowed) {
+        val text = if (isFollowed.value) {
             "Unfollow"
         } else {
             "Follow"
