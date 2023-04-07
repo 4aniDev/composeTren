@@ -3,6 +3,7 @@ package ru.chani.composetren
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,11 +22,13 @@ import ru.chani.composetren.ui.theme.ComposeTrenTheme
 import ru.chani.composetren.ui.theme.PostCard
 
 class MainActivity : ComponentActivity() {
+
+    val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTrenTheme {
-                MainScreen()
+                MainScreen(viewModel)
             }
         }
     }

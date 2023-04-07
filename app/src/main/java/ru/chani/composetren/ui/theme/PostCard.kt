@@ -35,7 +35,10 @@ import ru.chani.composetren.domain.StatisticType
 fun PostCard(
     modifier: Modifier = Modifier,
     feedPost: FeedPost,
-    onStatisticItemListener: (StatisticItem) -> Unit
+    onViewsItemListener: (StatisticItem) -> Unit,
+    onSharesItemListener: (StatisticItem) -> Unit,
+    onCommentsItemListener: (StatisticItem) -> Unit,
+    onLikesItemListener: (StatisticItem) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -61,7 +64,10 @@ fun PostCard(
             Statistics(
                 statistics = feedPost.statistics,
 //                сигнатура методов одинаковая, по этому просто присваиваю
-                onItemClickListener = onStatisticItemListener
+                onViewsItemListener = onViewsItemListener,
+                onSharesItemListener = onSharesItemListener,
+                onCommentsItemListener = onCommentsItemListener,
+                onLikesItemListener = onLikesItemListener
             )
 
         }
@@ -112,7 +118,10 @@ private fun PostHeader(feedPost: FeedPost) {
 @Composable
 private fun Statistics(
     statistics: List<StatisticItem>,
-    onItemClickListener: (StatisticItem) -> Unit
+    onViewsItemListener: (StatisticItem) -> Unit,
+    onSharesItemListener: (StatisticItem) -> Unit,
+    onCommentsItemListener: (StatisticItem) -> Unit,
+    onLikesItemListener: (StatisticItem) -> Unit
 ) {
     Row {
         Row(
@@ -124,7 +133,7 @@ private fun Statistics(
                 iconResId = R.drawable.ic_views_count,
                 text = viewsItem.count.toString(),
                 onItemClickListener = {
-                    onItemClickListener(viewsItem)
+                    onViewsItemListener(viewsItem)
                 }
             )
         }
@@ -140,7 +149,7 @@ private fun Statistics(
                 iconResId = R.drawable.ic_share,
                 text = sharesItem.count.toString(),
                 onItemClickListener = {
-                    onItemClickListener(sharesItem)
+                    onSharesItemListener(sharesItem)
                 }
             )
 
@@ -149,7 +158,7 @@ private fun Statistics(
                 iconResId = R.drawable.ic_comment,
                 text = commentItem.count.toString(),
                 onItemClickListener = {
-                    onItemClickListener(commentItem)
+                    onCommentsItemListener(commentItem)
                 }
             )
 
@@ -158,7 +167,7 @@ private fun Statistics(
                 iconResId = R.drawable.ic_like,
                 text = likesItem.count.toString(),
                 onItemClickListener = {
-                    onItemClickListener(likesItem)
+                    onLikesItemListener(likesItem)
                 }
             )
 
