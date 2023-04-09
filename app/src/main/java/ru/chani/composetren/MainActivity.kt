@@ -9,11 +9,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import ru.chani.composetren.ui.theme.ComposeTrenTheme
@@ -43,28 +49,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Test(viewModel: MainViewModel) {
-    LazyColumn() {
 
-        item {
-            Text(
-                text = "Title",
-                fontSize = 20.sp,
-                color = MaterialTheme.colors.onSecondary
-            )
-        }
-        items(10) {index ->
-            InstaProfileCard(viewModel)
-            Log.d("TAG_LAZY", index.toString())
-        }
-        item {
-            Image(
-                painter = painterResource(id = R.drawable.ic_insta),
-                contentDescription = null
-            )
-        }
+    val models = viewModel.models.observeAsState(listOf())
 
-        items(200) {
-            InstaProfileCard(viewModel)
+    LazyHorizontalGrid(rows = GridCells.Adaptive(200.dp)) {
+        items(models.value) { model ->
+            InstaProfileCard(
+                model = model,
+                onFollowedButtonClickListener = { viewModel.changeFollowingStatus(model) }
+            )
         }
     }
 

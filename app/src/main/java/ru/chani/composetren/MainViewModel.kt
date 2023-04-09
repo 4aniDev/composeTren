@@ -3,18 +3,38 @@ package ru.chani.composetren
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlin.random.Random
 
 class MainViewModel() : ViewModel() {
 
-    private val _isFollowing = MutableLiveData<Boolean>()
-    val isFollowing: LiveData<Boolean> = _isFollowing
-
-    fun changeFollowingSate() {
-        val wasFollowing = _isFollowing.value ?: DEFAULT_FOLLOWING_STATE
-        _isFollowing.value = !wasFollowing
+    private val initialList = mutableListOf<InstagramModel>().apply {
+        repeat(500) {
+            add(
+                InstagramModel(
+                    id = it,
+                    title = "Title: $it",
+                    isFollowed = Random.nextBoolean()
+                )
+            )
+        }
     }
 
-    companion object {
-        private const val DEFAULT_FOLLOWING_STATE = false
+
+
+    private val _models = MutableLiveData<List<InstagramModel>>(initialList)
+    val models: LiveData<List<InstagramModel>> = _models
+
+    fun changeFollowingStatus(model: InstagramModel) {
+        val modifiedList = _models.value?.toMutableList() ?: mutableListOf()
+        modifiedList.replaceAll {
+            if (it == model) {
+                it.copy(isFollowed = !it.isFollowed)
+            } else {
+                it
+            }
+        }
+
+        _models.value = modifiedList
     }
+
 }

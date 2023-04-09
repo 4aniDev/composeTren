@@ -19,22 +19,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.chani.composetren.InstagramModel
 import ru.chani.composetren.MainViewModel
 import ru.chani.composetren.R
 
 @Composable
 fun InstaProfileCard(
-    viewModel: MainViewModel
+    model: InstagramModel,
+    onFollowedButtonClickListener: (model: InstagramModel) -> Unit
 ) {
-    /**
-     * This function converts our LiveData object to State object.
-     * if we set initial state to function
-     * variable will be NON_NULLABLE, for example (State<Boolean>)
-     * else
-     * variable will be NULLABLE (State<Boolean?>)
-     * */
-    val isFollowed: State<Boolean> =  viewModel.isFollowing.observeAsState(false)
-
     Card(
         backgroundColor = MaterialTheme.colors.background,
         modifier = Modifier.padding(10.dp),
@@ -65,13 +58,13 @@ fun InstaProfileCard(
             Text(
                 fontFamily = FontFamily.Cursive,
                 fontSize = 30.sp,
-                text = "Instagram"
+                text = "Instagram ${model.id}"
             )
-            Text(text = "#YoursToMake")
+            Text(text = "#${model.title}")
             Text(text = "www.facebook.com/emotional_health")
 
-            FollowButton(isFollowed = isFollowed) {
-                viewModel.changeFollowingSate()
+            FollowButton(isFollowed = model.isFollowed) {
+                onFollowedButtonClickListener(model)
             }
         }
 
@@ -79,36 +72,22 @@ fun InstaProfileCard(
 }
 
 
-    /**
-     * Лучше пробрасывать состояния непосредственно в ту функию, где это состояние будет
-     * использоаться.
-     * В данном случае isFollowed должна быть не просто Boolean, а State<Boolean>.
-     * Это нужно чтобы вызывающие функции не зависили от ее состояния, а следовательно
-     * и не происходила рекомпозиция в вышестоящих в стеке функциях.
-     *
-     * Выше, можно было бы написать вот так:
-     * FollowButton(isFollowed = isFollowed.value) {
-        viewModel.changeFollowingSate()
-        }
-     * Тогда, функция Card() зависила бы от этого стейта, и каждый раз при изменении состояния
-     * кнопки, прихоилось бы перерисовывать и Card()
-     */
 @Composable
 private fun FollowButton(
-    isFollowed: State<Boolean>,
+    isFollowed: Boolean,
     clickListener: () -> Unit
 ) {
     Button(
         onClick = { clickListener() },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (isFollowed.value) {
+            backgroundColor = if (isFollowed) {
                 MaterialTheme.colors.primary.copy(alpha = 0.5f)
             } else {
                 MaterialTheme.colors.primary
             }
         )
     ) {
-        val text = if (isFollowed.value) {
+        val text = if (isFollowed) {
             "Unfollow"
         } else {
             "Follow"
